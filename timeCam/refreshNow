@@ -1,0 +1,4 @@
+#!/bin/sh
+#
+# Update the website images
+(cd /home/burstybit/dev/python/timeCam/ && python timeCam.py)
