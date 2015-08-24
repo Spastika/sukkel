@@ -28,9 +28,16 @@ with picamera.PiCamera() as camera:
   
   # datetime.now() is tz unaware, but the sun stuff not
   sunset_dt = sun['sunset'].replace(tzinfo=None)
-  sunrise_dt = sun['sunrise'].replace(tzinfo=None) 
+  sunrise_dt = sun['sunrise'].replace(tzinfo=None)
+  now_dt = datetime.now()
   
-  if ( ( datetime.now() >= sunset_dt ) and ( datetime.now() <= sunrise_dt ) ):
+  tydstring  =      "Tyd Nou: [" + str(now_dt)     + "]\n"
+  tydstring += "Sononder-tyd: [" + str(sunset_dt)  + "]\n"
+  tydstring +=    "Sonop-tyd: [" + str(sunrise_dt) + "]\n"
+  print tydstring
+  print "Sukkel"
+  
+  if ( not ( ( now_dt >= sunrise_dt) and ( now_dt <= sunset_dt) ) ):
     print "Dis donker, so ons laat ekstra lig in vir die kamera."
     '''
       Night time low light settings have long exposure times Settings for
@@ -86,7 +93,8 @@ with picamera.PiCamera() as camera:
       lastx.paste(im, ((i%columns)*size.x, (i/columns)*size.y))
     lastx.save('/var/www/last24.jpg')
   elif datetime.now().minute >= 30 and datetime.now().minute < 45: 
-    print "Op die halfuur - vars gif"
+    print "Op die halfuur - vars gif - maar eers 60 s wag vir jou om te pause as jy daar is"
+    sleep(60)
     # Create a gif of the last 24*(60/15)=96 images
     x = 96
     shrink = 2
